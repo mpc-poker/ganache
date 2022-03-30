@@ -475,7 +475,7 @@ export default class Blockchain extends Emittery<BlockchainTypedEvents> {
         // ```
         // If we don't have this delay here the messages will be sent before
         // the call has a chance to listen to the event.
-        setImmediate(async () => {
+        setTimeout(async () => {
           // emit block logs first so filters can pick them up before
           // block listeners are notified
           await Promise.all([
@@ -483,7 +483,7 @@ export default class Blockchain extends Emittery<BlockchainTypedEvents> {
             this.emit("block", block)
           ]);
           resolve(void 0);
-        });
+        }, 0);
       });
     } else {
       // emit block logs first so filters can pick them up before
@@ -574,7 +574,7 @@ export default class Blockchain extends Emittery<BlockchainTypedEvents> {
         maxTransactions,
         onlyOneBlock
       ),
-      blockNumber: nextBlock.header.number.toBuffer()
+      blockNumber: nextBlock.header.number.buf
     };
   };
 
